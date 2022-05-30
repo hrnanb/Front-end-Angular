@@ -1,0 +1,17 @@
+
+<app-header [isLogged]="isLogged"></app-header>
+<app-banner [isLogged]="isLogged"></app-banner>
+<app-info-personal [isLogged]="isLogged"></app-info-personal>
+  <!-- SEPARADOR -->
+  <hr class="container" style="border:1px; margin-bottom: 50px;" >
+  <!-- SEPARADOR -->
+<div class="container contenedor-cards shadow " style="padding:25px; border-radius: 15px;">
+
+  <app-card-personal [isLogged]="isLogged" ></app-card-personal>
+  <app-experiencia [isLogged]="isLogged"></app-experiencia>
+  <app-educacion [isLogged]="isLogged"></app-educacion>
+  <app-skills [isLogged]="isLogged"></app-skills>
+  <app-proyectos [isLogged]="isLogged"></app-proyectos>
+
+</div>
+<app-footer></app-footer>

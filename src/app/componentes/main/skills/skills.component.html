@@ -1,0 +1,175 @@
+<div class="container contenedor-cards">
+  <div class="col-12"  >
+    <h1  class="shadow-sm" style="margin-left: 10px; background-color:rgb(247, 247, 247); ">Hards Skills & Softs Skills</h1>
+    <div class="  contenedor-botonos">
+      <div class="botones" *ngIf="isLogged">
+        <button class="btn btn-success" style="width: 50px;" data-bs-toggle="modal" data-bs-target="#addSkills"  ><i class="bi bi-plus-circle"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="row g-0 skill-contenedor"  *ngFor="let skills of skills"  >
+    <div class="col-12">
+      <div class="skill-cards" style="padding:20px; position: relative; ">
+
+        <h3>{{skills.tecnologia}}</h3>
+        <div class="progress">
+          <br />
+          <div class="progress-bar progress-bar-striped" role="progressbar" [ngClass]="skills.color" [ngStyle]="{'width' : skills.porcentaje + '%' }"
+            aria-valuenow="100">
+          </div>
+        </div>
+        <div class="  contenedor-botonos">
+          <div class="botones" *ngIf="isLogged">
+            <button class="btn btn-primary" style="width: 50px;"
+             (click)="onOpenModal('editSkills',skills)" data-bs-toggle="modal" data-bs-target="#editSkills"  >
+             <i class="bi bi-pencil-square"></i></button>
+            <button class="btn btn-danger" style="width: 50px;"
+            (click)="onOpenModal('deleteSkills',skills)" data-bs-toggle="modal" data-bs-target="#deleteSkillsModal"
+            ><i class="bi bi-trash3"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- MODALR AGREGAR -->
+
+
+
+
+<div class="modal fade" id="addSkills" tabindex="-1" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Agregar Competencia </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #addForm="ngForm" (ngSubmit)="onAddSkills(addForm)">
+          <input type="hidden" id="id_skill" name="id_skill">
+          <div class="form-group">
+            <label for="nombreInstitucion">Nombre de la habilidad:</label>
+            <input type="text" ngModel name="tecnologia" class="form-control" id="tecnologia"
+              placeholder="Ej javascript" required>
+          </div>
+          <div class="form-group">
+            <label for="porcentaje">Porcentaje:</label>
+            <input type="range" #range ngModel name="porcentaje" class="form-control" id="porcentaje"
+              required>
+            <h3>{{range.value}}</h3>
+          </div>
+          <div class="form-group">
+            <label for="color">Elegir color de la barra:</label>
+            <br>
+            <select id="color" name="color"  #color ngModel class="form-select form-select-sm" aria-label=".form-select-sm example">
+              <option  id="" value="">Default</option>
+              <option  id="" value="bg-success">Success</option>
+              <option  id="" value="bg-info">Info</option>
+              <option  id="" value="bg-warning">Warning</option>
+              <option  id="" value="bg-danger">Danger</option>
+            </select>
+          </div>
+          <div class="progress" style="margin-top:15px;">
+            <div  [ngClass]="color.value" class="progress-bar progress-bar-striped" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
+            [ngStyle]="{'width' : range.value+ '%' }">
+           </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button [disabled]="addForm.invalid" class="btn btn-primary" data-bs-dismiss="modal">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- MODIFICAR -->
+
+
+
+
+
+<div class="modal fade" id="editSkills" tabindex="-1" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Modificar {{editSkills?.tecnologia}} </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #editForm="ngForm" >
+          <input type="hidden" id="idSkill" name="idSkill" value="{{editSkills?.idSkill}}" ngModel="{{editSkills?.idSkill}}">
+          <div class="form-group">
+            <label for="nombreInstitucion">Nombre de la habilidad:</label>
+            <input type="text" ngModel="{{editSkills?.tecnologia}}" name="tecnologia" class="form-control" id="tecnologia"
+              placeholder="Ej javascript" >
+          </div>
+          <div class="form-group">
+            <label for="porcentaje">Porcentaje:</label>
+            <input type="range" #rangeEdit ngModel="{{editSkills?.porcentaje}}" name="porcentaje" class="form-control" id="porcentaje"
+              >
+            <h3>{{rangeEdit.value}}</h3>
+          </div>
+
+          <div class="form-group">
+            <label for="color">Elegir color de la barra:</label>
+            <br>
+            <select id="color" name="color"  #colorEdit  ngModel="{{editSkills?.color}}" class="form-select form-select-sm" aria-label=".form-select-sm example">
+              <!-- <option selected>bg-success</option> -->
+              <option  id="" value="">Default</option>
+              <option  id="" value="bg-success">Success</option>
+              <option  id="" value="bg-info">Info</option>
+              <option  id="" value="bg-warning">Warning</option>
+              <option  id="" value="bg-danger">Danger</option>
+            </select>
+          </div>
+          <div class="progress" style="margin-top:15px;">
+            <div  [ngClass]="colorEdit.value" class="progress-bar progress-bar-striped" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
+            [ngStyle]="{'width' : rangeEdit.value+ '%' }" ></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button [disabled]="editForm.invalid" (click)="onUpdateSkills(editForm.value)" class="btn btn-primary" data-bs-dismiss="modal">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- ELIMINAR -->
+
+<div class="modal fade" id="deleteSkillsModal" tabindex="-1" aria-labelledby="deleteSkillsModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteSkillsModal">Eliminar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>¿Esta seguro que desea eliminar {{deleteSkills?.tecnologia}}?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button (click)="onDeleteSkills(deleteSkills!.idSkill,deleteSkills!)" type="button" class="btn btn-primary"
+          data-bs-dismiss="modal">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+

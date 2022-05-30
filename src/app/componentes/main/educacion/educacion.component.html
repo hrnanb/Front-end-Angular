@@ -1,0 +1,225 @@
+<!-- contenedor educacion -->
+<div class="container contenedor-cards">
+  <div class="row g-0">
+    <div class="col">
+      <h1 class="shadow-sm" style="  margin-left: 10px; background-color:rgb(247, 247, 247); ">Educacion</h1>
+      <div class=" col contenedor-botonos">
+        <div *ngIf="isLogged" class="botones">
+          <button class="btn btn-success" style="width: 50px;" data-bs-toggle="modal" data-bs-target="#add"><i
+              class="bi bi-plus-circle"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="card mb-3  mod-contenedor-cards" *ngFor="let e of educacion">
+    <div class="row g-0">
+      <div class="col text-center">
+        <!-- imagen -->
+        <div class="imagen-educacion img-fluid d-none d-md-none d-lg-block d-xl-block d-xxl-block " style="width: 150px; height: 150px;
+         background-image: url(); background-position: center center;background-size: cover;"
+          [style.background-image]="'url(' + imgUrl+e.imgEdu + ')'">
+        </div>
+      </div>
+      <div class="col-10" style="max-width: 85%;">
+        <div class="card-body">
+          <h5 class="card-title"> {{e.nombreInstitucion}}</h5>
+          <p style="display: none;" #eduId id="{{e.id__Edu}}">{{e.id__Edu}}</p>
+
+          <p class="card-text" style="display: inline;"><small class="text-muted">{{e.fechaInicio}}</small></p>
+          <p class="card-text" style="display: inline;"><small class="text-muted"> a </small></p>
+          <p class="card-text" style="display: inline;"><small class="text-muted">{{e.fechaFin}}</small></p>
+
+          <p class="card-text" #descripcion>{{e.descripcionEdu}}</p>
+        </div>
+      </div>
+      <div *ngIf="isLogged" class="  contenedor-botonos">
+        <div class="botones">
+          <button (click)="onOpenModal('edit',e)" data-bs-toggle="modal" data-bs-target="#add-educacion-fom"
+            class="btn btn-primary" style="width: 50px;"><i class="bi bi-pencil-square"></i></button>
+          <button (click)="onOpenModal('delete',e)" data-bs-toggle="modal" data-bs-target="#deleteEducacionModal"
+            class="btn btn-danger" style="width: 50px;"><i class="bi bi-trash3"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- MODALR AGREGAR -->
+
+
+
+
+<div class="modal fade" id="add" tabindex="-1" aria-labelledby="add" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Agregar Educacion </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #addForm="ngForm" (ngSubmit)="onAddEducacion(addForm)">
+          <div class="form-group">
+            <label for="nombreInstitucion">Nombre del Instituto:</label>
+            <input type="text" ngModel name="nombreInstitucion" class="form-control" id="nombreInstitucion"
+              placeholder="Nombre Instituto" required>
+          </div>
+          <div class="form-group">
+            <label for="fechaInicio">Fecha de inicio:</label>
+            <input type="date" ngModel name="fechaInicio" class="form-control" id="fechaInicio" placeholder="Fecha"
+              required>
+            <div class="form-group">
+              <label for="fechaFin">Fecha de finalizacion:</label>
+              <input type="date" ngModel name="fechaFin" class="form-control" id="fechaFin" placeholder="Fecha fin"
+                required>
+            </div>
+            <div class="form-group">
+              <label for="descripcionEdu">Descripcion:</label>
+              <textarea type="text" ngModel name="descripcionEdu" class="form-control" id="descripcionEdu"
+                placeholder="Descripcion" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="imgEdu">Imagen</label>
+              <!-- <input type="file" ngModel name="imgEdu" class="form-control" id="imgEdu" placeholder="Imagen"> -->
+              <input type="hidden" id="imgEdu" ngModel="{{imgNombre}}" name="imgEdu" class="form-control">
+              <!-- IMAGEN -->
+              <div class="form-group">
+                <input class="input-file" (change)="capturarFile($event)" type="file" class="form-control">
+                <div class="form-group " *ngIf="previsualizacion">
+                  <p> {{(loading) ? 'Cargando.....' : 'Subir Archivo'}}</p>
+                  <img [src]="previsualizacion" alt="" style="width:200px; display: block;
+                    margin: 0px auto;;">
+                </div>
+                <!--
+                <div class="p-1">
+                    <small>Se aceptan archivos imágenes de tipo .png</small>
+                </div> -->
+                <!-- <div *ngIf="previsualizacion">
+                    <button type="button" class="button">
+                        {{(loading)}} ? 'Cargando.....' : 'Subir Archivo'}}
+                    </button>
+                </div> -->
+
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button *ngIf="previsualizacion" class="btn btn-danger" type="button" (click)="clearImage()"> Quitar
+                Imagen </button>
+              <button type="button" id="add-educacion-form" class="btn btn-secondary"
+                data-bs-dismiss="modal">Cerrar</button>
+              <button [disabled]="addForm.invalid" class="btn btn-primary" (click)="subirArchivo()"
+                data-bs-dismiss="modal">Guardar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- MODIFICAR -->
+
+<div class="modal fade" id="add-educacion-fom" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modificar </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #editForm="ngForm">
+          <input type="hidden" id="id__Edu" name="id__Edu" ngModel="{{editEducacion?.id__Edu}}">
+          <div class="form-group">
+            <label for="nombreInstitucion">Nombre del Instituto: </label>
+            <input type="text" ngModel="{{editEducacion?.nombreInstitucion}}" name="nombreInstitucion"
+              class="form-control" id="nombreInstitucion" placeholder="{{editEducacion?.nombreInstitucion}} " required>
+          </div>
+          <div class="form-group">
+            <label for="fechaInicio">Fecha de inicio: </label>
+            <input type="date" ngModel name="fechaInicio" class="form-control" id="fechaInicio"
+              ngModel="{{editEducacion?.fechaInicio}}" required>
+            <div class="form-group">
+              <label for="fechaFin">Fecha de finalizacion:</label>
+              <input type="date" ngModel name="fechaFin" class="form-control" id="fechaFin"
+                ngModel="{{editEducacion?.fechaFin}}" required>
+            </div>
+            <div class="form-group">
+              <label for="descripcionEdu">Descripcion:</label>
+              <textarea type="text" ngModel name="descripcionEdu" class="form-control" id="descripcionEdu"
+                ngModel="{{editEducacion?.descripcionEdu}}" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="imgEdu">Imagen</label>
+              <!-- <input type="file" ngModel name="imgEdu" class="form-control" id="imgEdu" placeholder="Imagen"> -->
+              <input type="hidden" id="imgEdu" ngModel="{{imgNombre}}" name="imgEdu" class="form-control">
+              <!-- IMAGEN -->
+              <div class="form-group">
+                <input class="input-file" (change)="capturarFile($event)" type="file" class="form-control">
+                <div class="form-group " *ngIf="previsualizacion">
+                  <p> {{(loading) ? 'Cargando.....' : ' '}}</p>
+                  <img [src]="previsualizacion" alt="" style="width:200px; display: block;
+                    margin: 0px auto;;">
+                </div>
+                <!--
+                <div class="p-1">
+                    <small>Se aceptan archivos imágenes de tipo .png</small>
+                </div> -->
+                <!-- <div *ngIf="previsualizacion">
+                    <button type="button" class="button">
+                        {{(loading)}} ? 'Cargando.....' : 'Subir Archivo'}}
+                    </button>
+                </div> -->
+
+              </div>
+            </div>
+
+
+            <div class="modal-footer">
+              <button *ngIf="previsualizacion" class="btn btn-danger" type="button" (click)="clearImage()"> Quitar
+                Imagen </button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button [disabled]="editForm.invalid" (click)="onUpdateEducacion(editForm.value)" (click)="subirArchivo()"
+                type="button" id="add-educacion-form" class="btn btn-primary" data-bs-dismiss="modal">Guardar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- ELIMINAR -->
+
+<div class="modal fade" id="deleteEducacionModal" tabindex="-1" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Eliminar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>¿Esta seguro que desea eliminar {{deleteEducacion?.nombreInstitucion}}?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button (click)="onDeleteEducacion(deleteEducacion!.id__Edu,deleteEducacion!)" type="button"
+          class="btn btn-primary" data-bs-dismiss="modal">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>

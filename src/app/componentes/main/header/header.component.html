@@ -1,0 +1,38 @@
+<div class="header">
+
+  <nav class="fixed-top navbar navbar-expand-sm navbar-dark bg-danger shadow">
+    <div class="icono d-none d-lg-block d-xl-block d-xxl-block" style="position:absolute; left: 5px; top: 0;"><a
+        href="argentinaprograma.com"><img src="https://acortar.link/VYYnR5" style="height: 80px;" alt=""></a>
+    </div>
+    <div class="icono d-sm-block d-md-none d-lg-none d-xl-none d-xxl-none"
+      style="position:absolute; right: 5px; top: 0;"><a href="argentinaprograma.com"><img
+          src="https://acortar.link/VYYnR5" style="height: 80px;" alt=""></a></div>
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse " id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto bg-danger">
+        <li class="nav-item"><a href="https://www.instagram.com/hernanbarrionvo" class="nav-link"><i
+              class="bi bi-instagram   link"></i>
+          </a></li>
+        <li class="nav-item"><a href="https://www.facebook.com/hernanbattistini" class="nav-link"><i
+              class="bi bi-facebook link"></i>
+          </a></li>
+        <li class="nav-item"><a href="https://www.linkedin.com/in/hernan-battistini
+                " class="nav-link"><i class="bi bi-linkedin link"></i>
+          </a></li>
+        <!-- <h1 *ngIf="isLogged">LOGUEADO</h1> -->
+        <li class="nav-item" *ngIf="!isLogged"><a routerLink="/login" class="nav-link"><i
+              class="bi bi-door-open link"></i>
+          </a></li>
+        <li class="nav-item" *ngIf="isLogged" (click)="onLogOut()">
+          <a href="" class="nav-link"><i class="bi bi-door-closed-fill link"></i></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+</div>

@@ -1,0 +1,62 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Dosis&family=Roboto+Mono:wght@200&display=swap');
+
+
+.row * {
+  padding: 0;
+}
+h1,h2,h3,h4,h5 {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 1500;
+}
+p{
+    font-family: 'Dosis', sans-serif;
+    font-size: 18px;
+
+}
+
+
+
+
+.contenedor-botonos{
+  max-width: 50px;
+}
+.botones {
+  margin: 4px;
+  padding: 0px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+
+
+
+}
+.botones > .btn {
+  text-align: center;
+  /* height: 25px; */
+  font-size: 15px;
+
+}
+.contenedor-cards {
+  position: relative;
+  margin-top: 10px;
+  padding: 0px;
+}
+
+.mod-contenedor-cards {
+  position: relative;
+  padding: 10px 5px 10px 5px;
+  max-width: 100%;
+
+}
+
+
+
+.mod-contenedor-cards input{
+padding: 4px;
+}
+
+#descripcion{
+/**textarea**/
+max-width: 400px;
+}

@@ -1,0 +1,55 @@
+<div class="card mb-3  mod-contenedor-cards shadow-sm " style="border: none;">
+  <div *ngIf="persona" class="row g-0 ">
+
+    <div class="col-md-auto" style="max-width: 85%;">
+      <div class="card-body">
+        <h5 class="card-title">Sobre mi: </h5>
+        <p class="card-text">{{persona.sobre_mi}}</p>
+      </div>
+    </div>
+    <div class="col col-lg-2" style="max-width: 50px;">
+      <div *ngIf="isLogged" class="card-body botones">
+        <button  (click)="onOpenModal('edit',persona)"   data-bs-toggle="modal" data-bs-target="#edit-sobre-mi" class="btn btn-primary" style="width: 50px;"><i class="bi bi-pencil-square"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- MODIFICAR -->
+
+<div class="modal fade" id="edit-sobre-mi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Modificar Informacion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #editForm="ngForm">
+          <input type="hidden" id="idPersona" name="idPersona" ngModel="{{editPersona?.idPersona}}">
+          <input type="hidden"  id="nombre" name="nombre" ngModel="{{editPersona?.nombre}}">
+          <input type="hidden"  id="apellido" name="apellido" ngModel="{{editPersona?.apellido}}">
+          <input type="hidden"  id="fechaNac" name="fechaNac" ngModel="{{editPersona?.fechaNac}}">
+          <input type="hidden"  id="imgPersona" name="imgPersona" ngModel="{{editPersona?.imgPersona}}">
+          <input type="hidden"  id="titulo" name="titulo" ngModel="{{editPersona?.titulo}}">
+          <input type="hidden"  id="subtitulo" name="subtitulo" ngModel="{{editPersona?.subtitulo}}">
+          <input type="hidden"  id="direccion" name="direccion" ngModel="{{editPersona?.direccion}}">
+            <div class="form-group">
+              <label for="sobre_mi">Sobre mi:</label>
+              <textarea type="text" ngModel name="sobre_mi" class="form-control" id="sobre_mi"
+                ngModel="{{editPersona?.sobre_mi}}" required></textarea>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button [disabled]="editForm.invalid" (click)="onUpdatePersona(editForm.value)"
+                type="button" id="" class="btn btn-primary" data-bs-dismiss="modal">Guardar</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

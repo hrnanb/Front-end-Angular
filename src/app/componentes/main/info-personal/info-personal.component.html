@@ -1,0 +1,242 @@
+<div class="container-sm shadow" style="border-radius: 15px; ">
+  <div *ngIf="persona" class="row" style="padding: 10px;">
+    <div class="col-0" style="position:relative;">
+      <div class="img-perfil " style="position:absolute; left:10px; top:-255px;  z-index: 1; margin-top: -10px;">
+
+        <div class="box rounded-circle" style="width: 250px; height: 250px; border:solid 1px; background-image: url(); background-position:
+         center center;background-size: cover;" [style.background-image]="'url(' + imgUrl+persona.imgPersona + ')'"></div>
+        <!-- <img class=" shadow-sm" src="{{imgUrl+persona.imgPersona}}" style="max-height: 350px;border-radius: 15px;" alt=""> -->
+      </div>
+      <div class="card-body botones" *ngIf="isLogged">
+        <button (click)="onOpenModal('edit',persona)" class="btn btn-primary" style="width: 50px;"
+          data-bs-toggle="modal" data-bs-target="#edit"><i class="bi bi-pencil-square"></i>
+        </button>
+      </div>
+    </div>
+    <div class="col-12" style=" margin-top:25px;">
+      <div class="titulo">
+        <h2>{{persona.nombre}}</h2>
+        <!-- <br/> -->
+        <h4> {{persona.apellido}}.</h4>
+      </div>
+      <div class="descripcion">
+        <p>{{persona.titulo}}.</p>
+        <p>{{persona.subtitulo}}.</p>
+      </div>
+    </div>
+    <!-- ngModel="{{editPersona?.idUsuario}} -->
+    <div class="col">
+      <h4>{{persona.direccion}}</h4>
+      <!-- <p><a href="">Contacto</a></p> -->
+    </div>
+
+  </div>
+
+  <!-- SEPARADOR -->
+  <!-- <hr style="border:1px; margin-bottom: 50px;" > -->
+  <!-- SEPARADOR -->
+</div>
+
+
+
+<!-- MODALR AGREGAR -->
+
+
+
+
+<div class="modal fade" id="" tabindex="-1" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Agregar Persona </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #addForm="ngForm">
+          <div class="form-group">
+            <label for="nombreInstitucion">Nombre del Instituto:</label>
+            <input type="text" ngModel name="nombreInstitucion" class="form-control" id="nombreInstitucion"
+              placeholder="Nombre Instituto" required>
+          </div>
+          <div class="form-group">
+            <label for="fechaInicio">Fecha de inicio:</label>
+            <input type="date" ngModel name="fechaInicio" class="form-control" id="fechaInicio" placeholder="Fecha"
+              required>
+            <div class="form-group">
+              <label for="fechaFin">Fecha de finalizacion:</label>
+              <input type="date" ngModel name="fechaFin" class="form-control" id="fechaFin" placeholder="Fecha fin"
+                required>
+            </div>
+            <div class="form-group">
+              <label for="descripcionEdu">Descripcion:</label>
+              <textarea type="text" ngModel name="descripcionEdu" class="form-control" id="descripcionEdu"
+                placeholder="Descripcion" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="imgEdu">Imagen</label>
+              <input type="hidden" id="imgEdu" ngModel="{{imgNombre}}" name="imgEdu" class="form-control">
+              <!-- IMAGEN -->
+              <div class="form-group">
+                <input class="input-file" (change)="capturarFile($event)" type="file" class="form-control">
+                <div class="form-group " *ngIf="previsualizacion">
+                  <p> {{(loading) ? 'Cargando.....' : 'Subir Archivo'}}</p>
+                  <img [src]="previsualizacion" alt="" style="width:200px; display: block;
+                    margin: 0px auto;;">
+                </div>
+                <!--
+                <div class="p-1">
+                    <small>Se aceptan archivos imágenes de tipo .png</small>
+                </div> -->
+                <!-- <div *ngIf="previsualizacion">
+                    <button type="button" class="button">
+                        {{(loading)}} ? 'Cargando.....' : 'Subir Archivo'}}
+                    </button>
+                </div> -->
+
+              </div>
+
+
+
+
+
+
+
+
+            </div>
+            <div class="modal-footer">
+              <button *ngIf="previsualizacion" class="btn btn-danger" type="button" (click)="clearImage()"> Quitar
+                Imagen </button>
+              <button type="button" id="" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button [disabled]="addForm.invalid" class="btn btn-primary" (click)="subirArchivo()"
+                data-bs-dismiss="modal">Guardar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- MODIFICAR -->
+
+<div class="modal fade" id="edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Modificar Informacion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #editForm="ngForm">
+          <input type="hidden" id="idPersona" name="idPersona" ngModel="{{editPersona?.idPersona}}">
+          <div class="form-group">
+            <label for="nombre">Nombre: </label>
+            <input type="text" ngModel="{{editPersona?.nombre}}" name="nombre" class="form-control" id="nombre"
+              placeholder="{{editPersona?.nombre}} " required>
+          </div>
+          <div class="form-group">
+            <label for="apellido">Apellido: </label>
+            <input type="text" ngModel="{{editPersona?.apellido}}" name="apellido" class="form-control" id="apellido"
+              placeholder="{{editPersona?.nombre}} " required>
+          </div>
+          <div class="form-group">
+            <label for="fechaNac">Fecha de Nacimiento: </label>
+            <input type="date" ngModel name="fechaNac" class="form-control" id="fechaNac"
+              ngModel="{{editPersona?.fechaNac}}" required>
+            <div class="form-group">
+              <label for="titulo">Titulo: </label>
+              <input type="text" ngModel="{{editPersona?.titulo}}" name="titulo" class="form-control" id="titulo"
+                placeholder="{{editPersona?.titulo}} " required>
+            </div>
+            <div class="form-group">
+              <label for="subtitulo">Subtitulo: </label>
+              <input type="text" ngModel="{{editPersona?.subtitulo}}" name="subtitulo" class="form-control"
+                id="subtitulo" placeholder="{{editPersona?.subtitulo}} " required>
+            </div>
+            <div class="form-group">
+              <label for="direccion">Direccion: </label>
+              <input type="text" ngModel="{{editPersona?.direccion}}" name="direccion" class="form-control"
+                id="direccion" placeholder="{{editPersona?.direccion}} " required>
+            </div>
+            <div class="form-group">
+              <label for="sobre_mi">Sobre mi:</label>
+              <textarea type="text" ngModel name="sobre_mi" class="form-control" id="sobre_mi"
+                ngModel="{{editPersona?.sobre_mi}}" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="imgPersona">Imagen</label>
+              <!-- <input type="file" ngModel name="imgEdu" class="form-control" id="imgEdu" placeholder="Imagen"> -->
+              <input type="hidden" id="imgPersona" ngModel="{{imgNombre||editPersona?.imgPersona}}" name="imgPersona" class="form-control">
+              <!-- IMAGEN -->
+              <div class="form-group">
+                <input class="input-file" (change)="capturarFile($event)" type="file" class="form-control">
+                <div class="form-group " *ngIf="previsualizacion">
+                  <p> {{(loading) ? 'Cargando.....' : ' '}}</p>
+                  <img [src]="previsualizacion" alt="" style="width:200px; display: block;
+                    margin: 0px auto;;">
+                </div>
+                <!--
+                <div class="p-1">
+                    <small>Se aceptan archivos imágenes de tipo .png</small>
+                </div> -->
+                <!-- <div *ngIf="previsualizacion">
+                    <button type="button" class="button">
+                        {{(loading)}} ? 'Cargando.....' : 'Subir Archivo'}}
+                    </button>
+                </div> -->
+
+              </div>
+
+
+
+
+
+
+
+
+            </div>
+
+
+            <div class="modal-footer">
+              <button *ngIf="previsualizacion" class="btn btn-danger" type="button" (click)="clearImage()"> Quitar
+                Imagen </button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button [disabled]="editForm.invalid" (click)="onUpdatePersona(editForm.value)" (click)="subirArchivo()"
+                type="button" id="" class="btn btn-primary" data-bs-dismiss="modal">Guardar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- ELIMINAR -->
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Eliminar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>¿Esta seguro que desea eliminar {{deletePersona?.nombre}}?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button (click)="onDeletePersona(deletePersona!.idPersona,deletePersona!)" type="button" class="btn btn-primary"
+          data-bs-dismiss="modal">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
